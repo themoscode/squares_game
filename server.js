@@ -5,6 +5,8 @@ const fs = require ( 'fs' );
 const url = require ( 'url' );
 const bodyParser = require ( 'body-parser');
 
+let PORT = process.env.PORT || 80;
+
 let app = express();
 
 app.use ( express.static('public', {
@@ -177,5 +179,5 @@ app.get ( '/statsUpdate', (req, res) => {
 })
 
 
-httpServer.listen( 80, err => console.log( err || 'Server läuft' ));
+httpServer.listen( PORT, err => console.log( err || 'Server läuft' ));
 ///////////////////////////////////
