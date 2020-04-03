@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hangman</title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/index.js"></script>
+</head>
+
+<body>
+   
+    
+    <div id="gameArea" class="hide">
+        
+        <div id="imgContainer"></div>
+        <div id="playContainer">
+               <h2 class="title">H A N G M A N</h2>
+            
+               <div id="wordContainer">
+                   <div id='wordSpaces'></div>
+               </div>
+               <div id="startContainer">
+                   <button class="myButton" id="btnStart">Spiel starten</button>
+                   
+                   <button class="btnStats myButton">Statistik</button>
+               </div>
+               
+               <div id="letters" class="hide" >
+                   <div>
+                        <span class="enabledLetter">A</span><span class="enabledLetter">B</span><span class="enabledLetter">C</span><span class="enabledLetter">D</span><span class="enabledLetter">E</span><span class="enabledLetter">F</span>
+                        <span class="enabledLetter">G</span><span class="enabledLetter">H</span><span class="enabledLetter">I</span><span class="enabledLetter">J</span><span class="enabledLetter">K</span><span class="enabledLetter">L</span>
+                   </div>
+                   <div>
+                        <span class="enabledLetter">M</span><span class="enabledLetter">N</span><span class="enabledLetter">O</span><span class="enabledLetter">P</span><span class="enabledLetter">Q</span><span class="enabledLetter">R</span>
+                        <span class="enabledLetter">S</span><span class="enabledLetter">T</span>
+                   </div>
+                   <div >
+                        <span class="enabledLetter">U</span><span class="enabledLetter">V</span><span class="enabledLetter">W</span><span class="enabledLetter">X</span>
+                        <span class="enabledLetter">Y</span><span class="enabledLetter">Z</span>
+                   </div>
+               </div>
+              
+               <div id="winMsg" >
+                   <h2>BRAVO , du hast es geschaft!!</h2>
+                    <button class="initBtn myButton">Neu starten</button>
+                    <button class="btnStats myButton">Statistik</button>
+                </div>
+                <div id="loseMsg" >
+                    <h2>Leider hast du es nicht geschaft!!</h2>
+                    <button class="initBtn myButton">Neu starten</button>
+                    <button class="btnStats myButton">Statistik</button>
+                </div>
+                
+            
+        </div>
+        
+    </div>
+    
+
+</body>
+
+</html>

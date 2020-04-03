@@ -1,0 +1,156 @@
+.show {
+    opacity: 1;
+    transition: opacity 500ms;
+    }
+
+.hide {
+    opacity: 0;
+    transition: opacity 500ms;
+    }
+
+.myButton {
+    box-shadow: 3px 4px 0px 0px #1564ad;
+    background-color:#79bbff;
+    border-radius:5px;
+    border:1px solid #337bc4;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    font-weight:bold;
+    padding:5px 5px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #528ecc;
+    width:120px
+}
+.myButton:hover {
+    background-color:#378de5;
+}
+.myButton:active {
+    position:relative;
+    top:1px;
+}
+    
+    
+
+#gameArea{
+
+    width:600px;
+    height:350px;
+    margin: auto;
+    border:1px solid black;
+    box-shadow: 5px 10px;
+}
+
+
+#gameArea #imgContainer {
+    float:left;
+    background-color: #6D98E6;
+    width:200px;
+    height:350px;
+    transition: background-image 1s ease-in-out;
+}
+
+#gameArea #playContainer {
+    float:right; 
+    background-color: #6D98E6;
+    width:400px;
+    height:350px;
+}
+
+.title {
+    text-align: center;
+    text-decoration-line: underline;
+    text-decoration-style: double;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+#gameArea #playContainer #wordContainer {
+    text-align: center;
+    
+    padding-top:60px;
+    padding-bottom:10px;
+   
+}
+
+#gameArea #playContainer #startContainer {
+    text-align: center;  
+}
+
+
+#gameArea #letters {
+    
+    text-align: center;
+    
+    
+    margin-top: 50px;
+   
+}
+
+
+#gameArea #letters div {
+   margin-top: 20px;
+   margin-left:16px;
+   
+}
+
+#gameArea #letters div:last-child {
+    margin-left: 90px
+}
+
+
+#letters span {
+
+    border: 1px solid black;
+    border-radius:10px;
+    padding:5px;
+    margin-right:5px;
+    margin-top:5px;
+    display: block;
+    width:20px;
+    float:left;
+    
+
+}
+
+
+.disabledLetter{
+    border: 1px solid black;
+    opacity:0.3;
+    cursor: default
+}
+
+.enabledLetter {
+    border: 1px solid black;
+    background: #E8ECF8;
+   
+    cursor: pointer
+}
+
+
+.enabledLetter:hover {
+    background: #6D98E6;
+    color:white
+}
+
+#wordSpaces {
+    
+    font-size:25px;
+    letter-spacing: 8px;
+    color:white;
+    
+}
+
+
+#winMsg {
+    display: none;
+    text-align: center;
+    color:rgb(5, 112, 5);
+}
+
+#loseMsg {
+    display: none;
+    text-align: center;
+    color:rgb(153, 63, 51)
+   }

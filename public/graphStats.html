@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <style>
+        body{
+            padding-bottom: 30px;
+        }
+        h2 {
+            text-align: center;
+            text-decoration-line: underline;
+            text-decoration-style: double;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+        #chartContainer {
+            height: 100%; 
+            width: 100%
+        }
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+        td, th {
+            border: 1px solid rgba(1,77,101,.2);
+            text-align: left;
+            padding: 8px;
+            }
+
+        tr:nth-child(even) {
+            background-color: rgba(1,77,101,.2)
+            }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>     
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                let statsTableBody = document.querySelector("#statsTable").getElementsByTagName('tbody')[0];
+
+                //sockets
+                let socket = io.connect();
+                
+                fetch("/stats").then(
+                    antwort => antwort.json()
+                    ).then(
+                    antwort => {
+                        
+                        socket.emit ( 'clientSendsStats', {
+                            stats: antwort,
+                        }); 
+                    
+                        
+                    }
+                    ).catch(
+                        err => console.log ( err )
+                    );
+                
+                    socket.on ( 'ServerSendsStats', (data, socketID) => {
+
+                            let stats = data.stats;
+                            //console.log(stats);
+                            statsTableBody.innerHTML="";
+                            let success = 0;
+                            let statsGraph=[];
+                            for (let i = 0; i < stats.length; i++) {
+                                if (stats[i].played > 0){
+                                    success = Math.round((stats[i].found * 100) / stats[i].played);
+                                    statsTableBody.innerHTML = statsTableBody.innerHTML + "<tr><td>"+stats[i].word+"</td><td>"+stats[i].played+"</td><td>"+stats[i].found+"</td><td>"+success+"%</td></tr>";
+                                    statsGraph.push({y:success,label:stats[i].word+"("+stats[i].found+"/"+stats[i].played+")"});
+                                }
+                                
+                            }
+
+                            //start diagram
+                            
+                            console.log("graph",JSON.stringify(statsGraph));
+
+                            let chart = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                title:{
+                                    text:"Erfolg (%)"
+                                },
+                                
+                                axisX:{
+                                    
+                                    title:"Wörter gefunden/gespielt",
+                                    
+                                },
+                                axisY2:{
+                                    interlacedColor: "rgba(1,77,101,.2)",
+                                    gridColor: "rgba(1,77,101,.1)",
+                                    maximum: 100
+                                },
+                                data: [{
+                                    type: "bar",
+                                    name: "companies",
+                                    axisYType: "secondary",
+                                    color: "#014D65",
+                                    dataPoints:statsGraph
+                                }]
+                            });
+                            chart.render();
+
+                    
+
+                    })   
+
+            })
+    </script>
+</head>
+<body>
+    <h2>H A N G M A N - S T A T S</h2> 
+    <table border="1" id="statsTable">
+            <thead>
+                <tr>
+                    <th>Wort</th>
+                    <th>gespielt</th>
+                    <th>gefunden</th>
+                    <th>Erfolg</th>
+                </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        
+    </table> 
+    <br>  
+    <div id="chartContainer"></div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
