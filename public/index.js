@@ -4,14 +4,13 @@
 
             //variables
 
-            let words=[];
             let stats=[];
             let chosenLetters = [];
             let word="";
             let totalTries = 6;
             let lostTry = 0;
 
-
+            let txtWord = document.querySelector("#txtWord");
             let btnStart = document.querySelector("#btnStart");
             let btnStats = document.querySelectorAll(".btnStats");
             
@@ -54,6 +53,10 @@
                 loadHangImage(lostTry);
                 fadeOut(gameArea);
                 
+                console.log("ServerSendsInit");
+
+                txtWord.value="";
+
                 setTimeout(function(){ 
                     
                     displayBlock(startContainer);
@@ -61,6 +64,7 @@
                     displayNone(loseMsg);
                     displayNone(winMsg);
                     displayNone(wordSpaces);
+                    displayBlock(txtWord);
                     displayBlock(gameArea);
                     fadeIn(gameArea);
                     enableSpanLetters();
@@ -71,7 +75,8 @@
             socket.on ( 'ServerSendsWord', (data, socketID) => {
 
                 word = data.word;
-                console.log(data.word);
+                console.log("ServerSendsWord:",data.word);
+                displayNone(txtWord);
                 displayNone(startContainer);
                 createWordSpaces(word);
                 displayBlock(wordSpaces);
@@ -109,7 +114,7 @@
                         
                         if (lostTry == totalTries) {
                             
-                            getStatsUpdate(false);
+                            
                             fadeOut(gameArea);
                             disableSpanLetters();
                             setTimeout(function(){ 
@@ -150,24 +155,7 @@
 
             }
 
-            socket.on ( 'ServerSendsRestart', (data, socketID) => {
-
-                fadeOut(gameArea);
-                
-                displayNone(startContainer);
-                    setTimeout(function(){ 
-                            
-                            displayNone(winMsg);
-                            displayNone(loseMsg);
-                            enableSpanLetters();
-                            displayBlock(letters);
-                            displayBlock(gameArea);
-                            fadeIn(gameArea);
-                            startGame();    
-                    }, 1000);
-
-            })
-
+          
             //sockets end
 
             //event listeners
@@ -175,26 +163,23 @@
             for (const button of initBtns) {
                 button.addEventListener('click', function(event) {
                     
-                    socket.emit ( 'clientSendsRestart', {
-                        text: "restart",
+                    socket.emit ( 'clientSendsInit', {
+                        text: "init",
                     }); 
                     
                 })
             }
 
-            for (const button of btnStats) {
-                button.addEventListener('click', function(event) {
-                    
-                    window.open("graphStats.html");
-                    
-                })
-            }
-
             
-
             btnStart.addEventListener('click',(e) => {
                    
-                startGame();
+                //startGame();
+                if (txtWord.value!="") {
+                    word=txtWord.value;
+                    word = word.toUpperCase();
+                    startGame();
+                }
+                
                
             });
 
@@ -226,42 +211,15 @@
                
                 loadHangImage(lostTry);
 
-                fetch('/words').then(
-                    antwort => antwort.json()
-                    ).then(
-                    antwort => {
-                        words = antwort;
+                console.log("clientSendsWord",word);
 
-                        //console.log(words);
-
-                        word = words[Math.floor(Math.random() * words.length)];
-                        
-                        //console.log(word);
-                        
-                        socket.emit ( 'clientSendsWord', {
-                            word: word,
-                        }); 
-                        
-                    }
-                    ).catch(
-                        err => console.log ( err )
-                    );
+                socket.emit ( 'clientSendsWord', {
+                    word: word,
+                }); 
 
             }
 
-            const getStatsUpdate = (found) =>{
-                fetch("/statsUpdate?word="+word+"&found="+found+"&socketID="+socketID).then(
-                    antwort => antwort.text()
-                    ).then(
-                    antwort => {
-                         
-                    //console.log(antwort);
-                        
-                    }
-                    ).catch(
-                        err => console.log ( err )
-                    );
-            }
+           
 
             const createLetterInWordSpaces = (letterToFind,indexes) =>{
 
@@ -276,7 +234,7 @@
                 
                 if (word == wordSpaces.innerHTML) {
 
-                    getStatsUpdate(true);
+                    
                    fadeOut(gameArea);
                    disableSpanLetters();
                    setTimeout(function(){ 

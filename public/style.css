@@ -142,6 +142,10 @@
     
 }
 
+#txtWord {
+    margin: 0 auto;
+} 
+
 
 #winMsg {
     display: none;
