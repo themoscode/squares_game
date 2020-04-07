@@ -1,5 +1,6 @@
-        'use strict';
-      
+        'use strict'
+        
+       
         document.addEventListener('DOMContentLoaded', () => {
 
             //variables
@@ -26,16 +27,15 @@
             let spanLetters = document.querySelectorAll("#letters span");
             let initBtns = document.querySelectorAll(".initBtn");
             
-            //variables end
-
-
-            //SOCKETS
+            let ausgabe = document.querySelector ('#ausgabe');
+            let inputText = document.querySelector ('#inputText');
+            let inputName = document.querySelector ('#inputName');
+            let eintraege = new Map();
+            
             let socket = io.connect();
             let socketID = null;
-            
-            socket.emit ( 'clientSendsInit', {
-                text: "init",
-            }); 
+
+            //SOCKETS
 
             socket.on('connect', function() {
                 //const sessionID = socket.socket.sessionid; //
@@ -43,6 +43,52 @@
                 socketID = socket.id;
                // console.log("socket.id",socketID);
               });
+
+            const sendeNachricht = () => {
+                socket.emit ( 'clientSendet', {
+                    text: inputText.value,
+                    name: inputName.value
+                })
+                inputText.value="";
+                
+            }
+            
+            // Socket-Events
+            socket.on ( 'nachricht', (data, socketID) => {
+                console.log( socketID );
+                
+                let nachricht = DOMElementAnlegen({
+                    eltern:ausgabe
+                });
+                DOMElementAnlegen({
+                    inhalt: data.name,
+                    typ: 'span',
+                    klassen:['name'],
+                    eltern: nachricht
+                });
+                DOMElementAnlegen({
+                    inhalt: data.text,
+                    typ: 'span',
+                    klassen:['text'],
+                    eltern: nachricht
+                })
+                
+               // setInterval(updateScroll,1000);
+                updateScroll();
+
+                eintraege.set ( nachricht, {
+                    name: data.name,
+                    text: data.text,
+                    socketID
+                })
+            })
+            
+           
+            socket.emit ( 'clientSendsInit', {
+                text: "init",
+            }); 
+
+            
 
             socket.on ( 'ServerSendsInit', (data, socketID) => {
 
@@ -160,6 +206,8 @@
 
             //event listeners
 
+            inputText.addEventListener('change', sendeNachricht );
+
             for (const button of initBtns) {
                 button.addEventListener('click', function(event) {
                     
@@ -200,9 +248,25 @@
 
             //event listeners end
 
-            
+            let updateScroll = ()=>{
+                
+                ausgabe.scrollTop = ausgabe.scrollHeight;
+            }
 
             //functions
+            let DOMElementAnlegen = ({
+                inhalt=false,
+                klassen=[],
+                eltern=document.body,
+                typ='div'
+            }={}) => {
+                let neu = document.createElement(typ);
+                if ( inhalt ) neu.innerHTML = inhalt;
+                if ( klassen.length ) neu.className = klassen.join(' ');
+                eltern.appendChild ( neu );
+                return neu;
+            }
+
             const startGame = () => {
 
                 chosenLetters = [];

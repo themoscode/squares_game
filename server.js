@@ -39,6 +39,11 @@ io.on ( 'connect', socket => {
     console.log ( "sockets[0].id="+sockets[0].id );
     console.log("-------------------------------");
 
+    socket.on( 'clientSendet', data => {
+        io.emit('nachricht', data, socket.id );
+    })
+
+
     socket.on( 'clientSendsLetter', data => {
         io.emit('ServerSendsLetter', data, socket.id );
         //console.log(data);
@@ -61,8 +66,8 @@ io.on ( 'connect', socket => {
 })
 
 // Terminal aktivieren
-//let stdIn = process.openStdin();
-//stdIn.addListener('data', eingabe => io.emit( 'nachricht', eingabe.toString() ))
+let stdIn = process.openStdin();
+stdIn.addListener('data', eingabe => io.emit( 'nachricht', eingabe.toString() ))
 
 httpServer.listen( PORT, err => console.log( err || 'Server läuft' ));
 ///////////////////////////////////

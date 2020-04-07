@@ -8,6 +8,10 @@
     transition: opacity 500ms;
     }
 
+input {
+    border-radius:5px;
+}
+
 .myButton {
     box-shadow: 3px 4px 0px 0px #1564ad;
     background-color:#79bbff;
@@ -37,10 +41,11 @@
 #gameArea{
 
     width:600px;
-    height:350px;
     margin: auto;
     border:1px solid black;
     box-shadow: 5px 10px;
+    background-color: #6D98E6;
+    border-radius: 5px;
 }
 
 
@@ -144,6 +149,7 @@
 
 #txtWord {
     margin: 0 auto;
+    text-align: center
 } 
 
 
@@ -158,3 +164,57 @@
     text-align: center;
     color:rgb(153, 63, 51)
    }
+
+#chatContainer {
+    clear: both;
+    padding: 5px;
+}   
+#inputName {
+    width:195px;
+    background-color: #6D98E6;
+    color: white;
+    border: 1px solid white;
+    box-sizing: border-box;
+    padding: 6px;
+    font-weight: bold;
+    border-radius: 5px
+}
+#inputText {
+    width: 389px;
+    background-color: #6D98E6;
+    color: white;
+    border: 1px solid white;
+    box-sizing: border-box;
+    padding: 6px;
+    border-radius: 5px
+    
+}
+
+#eingabe {
+    background-color: #6D98E6; 
+    margin-bottom: 5px;
+    
+}
+#ausgabe {
+
+    max-height:125px;
+    overflow-y: auto;
+    background-color: #6D98E6;
+    color:white;
+    scrollbar-color:   #E6ECF8 #6D98E6;
+    
+}
+
+#ausgabe > div {
+    position: relative;
+    padding: 3px;
+    margin: 3px;
+    
+}
+#ausgabe span.name {
+    
+    font-weight: bold;
+}
+#ausgabe span.name::after {
+    content: ': ';
+}
