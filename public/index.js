@@ -57,6 +57,7 @@ one().then(two).then(three)
             let btnRestart = document.querySelector("#btnRestart"); 
             let playerBlue = document.querySelector("#playerBlue"); 
             let playerRed = document.querySelector("#playerRed"); 
+            let sosSound = document.querySelector("#sosSound");
 
             let players = [];
             let player = {};
@@ -683,6 +684,7 @@ one().then(two).then(three)
             let blinkSOS = (elm1,elm2,elm3,thePlayer) => {
                 
                 console.log("thePlayer",thePlayer);
+                sosSound.play(); 
 
                 if (thePlayer.id == players[0].id){ //player1
                     console.log("players[0].score",players[0].score);
