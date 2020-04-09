@@ -114,7 +114,7 @@ one().then(two).then(three)
                 }
 
                 setTimeout(function(){
-                    playerRed.innerHTML="Red plays";
+                    playerRed.innerHTML="*Red";
                     playerBlue.innerHTML="Blue";
                     blink(player1Dom,"red");
                     
@@ -134,7 +134,7 @@ one().then(two).then(three)
                 
                 setTimeout(function(){
                     playerRed.innerHTML="Red";
-                    playerBlue.innerHTML="Blue plays";
+                    playerBlue.innerHTML="*Blue";
                     blink(player2Dom,"blue");
                     
                 },1000);
