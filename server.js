@@ -79,7 +79,7 @@ io.on ( 'connect', socket => {
         sockets = sockets.filter ( el => el != socket.id );
         console.log("socket disconnects");
         console.log ( sockets );
-        if (sockets.length < 2) {
+        if (sockets.length == 1) {
             io.emit('serverSendsSockets', sockets, socket.id );
         }
         //io.emit('serverSendsSockets', sockets, socket.id );
