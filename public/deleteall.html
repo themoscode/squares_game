@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>S.O.S</title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/index.js"></script>
+</head>
+
+<body>
+    <audio id="sosSound">
+          <source src="sounds/success.wav" type="audio/wav">
+          Your browser does not support the audio element.
+    </audio>
+    
+    <div id="gameArea">
+        <h2 class="title">S.O.S</h2>
+        <div id="msgContainer">
+            <div id="msgGameOccupied">
+                The game is occupied. Please try later (reload page)
+                <br>
+                <span>But you can chat</span>
+            </div>
+            <div id="msgWaitForPlayer">
+                    Waiting for second player...
+            </div>
+            <div id="msgResult"></div>
+            
+        </div>
+        <div id="playContainer">
+            
+            
+            <table id="sosTable">
+                            
+                <tr>
+                    <td contenteditable id="c_0_0"></td>
+                    <td contenteditable id="c_0_1"></td>
+                    <td contenteditable id="c_0_2"></td>
+                    <td contenteditable id="c_0_3"></td>
+                    <td contenteditable id="c_0_4"></td>
+                    <td contenteditable id="c_0_5"></td>
+                    <td contenteditable id="c_0_6"></td>
+                    <td contenteditable id="c_0_7"></td>
+                    <td contenteditable id="c_0_8"></td>
+                    <td contenteditable id="c_0_9"></td>
+                    <td contenteditable id="c_0_10"></td>
+                    <td contenteditable id="c_0_11"></td>
+                    <td contenteditable id="c_0_12"></td>
+                </tr>
+                
+                <tr>
+                    <td contenteditable id="c_1_0"></td>
+                    <td contenteditable id="c_1_1"></td>
+                    <td contenteditable id="c_1_2"></td>
+                    <td contenteditable id="c_1_3"></td>
+                    <td contenteditable id="c_1_4"></td>
+                    <td contenteditable id="c_1_5"></td>
+                    <td contenteditable id="c_1_6"></td>
+                    <td contenteditable id="c_1_7"></td>
+                    <td contenteditable id="c_1_8"></td>
+                    <td contenteditable id="c_1_9"></td>
+                    <td contenteditable id="c_1_10"></td>
+                    <td contenteditable id="c_1_11"></td>
+                    <td contenteditable id="c_1_12"></td>
+                </tr>
+                <tr>
+                    <td contenteditable id="c_2_0"></td>
+                    <td contenteditable id="c_2_1"></td>
+                    <td contenteditable id="c_2_2"></td>
+                    <td contenteditable id="c_2_3"></td>
+                    <td contenteditable id="c_2_4"></td>
+                    <td contenteditable id="c_2_5"></td>
+                    <td contenteditable id="c_2_6"></td>
+                    <td contenteditable id="c_2_7"></td>
+                    <td contenteditable id="c_2_8"></td>
+                    <td contenteditable id="c_2_9"></td>
+                    <td contenteditable id="c_2_10"></td>
+                    <td contenteditable id="c_2_11"></td>
+                    <td contenteditable id="c_2_12"></td>
+                </tr>
+                <tr>
+                    <td contenteditable id="c_3_0"></td>
+                    <td contenteditable id="c_3_1"></td>
+                    <td contenteditable id="c_3_2"></td>
+                    <td contenteditable id="c_3_3"></td>
+                    <td contenteditable id="c_3_4"></td>
+                    <td contenteditable id="c_3_5"></td>
+                    <td contenteditable id="c_3_6"></td>
+                    <td contenteditable id="c_3_7"></td>
+                    <td contenteditable id="c_3_8"></td>
+                    <td contenteditable id="c_3_9"></td>
+                    <td contenteditable id="c_3_10"></td>
+                    <td contenteditable id="c_3_11"></td>
+                    <td contenteditable id="c_3_12"></td>
+                </tr>
+                <tr>
+                    <td contenteditable id="c_4_0"></td>
+                    <td contenteditable id="c_4_1"></td>
+                    <td contenteditable id="c_4_2"></td>
+                    <td contenteditable id="c_4_3"></td>
+                    <td contenteditable id="c_4_4"></td>
+                    <td contenteditable id="c_4_5"></td>
+                    <td contenteditable id="c_4_6"></td>
+                    <td contenteditable id="c_4_7"></td>
+                    <td contenteditable id="c_4_8"></td>
+                    <td contenteditable id="c_4_9"></td>
+                    <td contenteditable id="c_4_10"></td>
+                    <td contenteditable id="c_4_11"></td>
+                    <td contenteditable id="c_4_12"></td>
+                </tr>
+                <tr>
+                    <td contenteditable id="c_5_0"></td>
+                    <td contenteditable id="c_5_1"></td>
+                    <td contenteditable id="c_5_2"></td>
+                    <td contenteditable id="c_5_3"></td>
+                    <td contenteditable id="c_5_4"></td>
+                    <td contenteditable id="c_5_5"></td>
+                    <td contenteditable id="c_5_6"></td>
+                    <td contenteditable id="c_5_7"></td>
+                    <td contenteditable id="c_5_8"></td>
+                    <td contenteditable id="c_5_9"></td>
+                    <td contenteditable id="c_5_10"></td>
+                    <td contenteditable id="c_5_11"></td>
+                    <td contenteditable id="c_5_12"></td>
+                </tr>
+            
+              
+                
+
+            </table>
+            
+                   
+            <br>
+            <table id="playersTable" >
+                <tr>
+                    <td id="playersTableCell1" ><span id="player1Dom"><span id="playerRed">Red</span>:<span id="player1Score">00</span></span></td>
+                    <td id="playersTableCell2" ><div id="playerID"><span></span></div></td>
+                    <td id="playersTableCell3" ><span id="player2Dom"><span id="playerBlue">Blue</span>:<span id="player2Score">00</span></span></td>
+                </tr>
+            </table>
+            
+        </div>
+
+        <div id="restartContainer">
+            <button id="btnRestart" class="myButton">Restart</button>
+        </div>
+        
+        <br>
+        <br>
+        <div id="chatContainer">
+            <div id="eingabe">
+                <input type="text" id="inputName" placeholder="Name" />
+                <input type="text" id="inputText" placeholder="Message" />
+            </div>
+            <div id="ausgabe"></div>
+        </div>
+        
+    </div>
+    
+
+</body>
+
+</html>
