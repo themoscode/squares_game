@@ -1,39 +1,5 @@
         'use strict'
-        /*
-        function one(callback) {
-  return new Promise(function(resolve, reject) {
-    
-      console.log("first function executed");
-      resolve();
-    
-  })
-}
-
-function two(callback) {
-
-	return new Promise(function(resolve, reject) {
-    
-      setTimeout(function() {
-      console.log("second function executed");
-      resolve();
-    }, 5000);
-    
-  })
-  
-}
-
-
-function three() {
-
-	setTimeout(function() {
-      console.log("third function executed");
-      
-    }, 5000);
-  
-}
-
-one().then(two).then(three)
-        */ 
+        
        
         document.addEventListener('DOMContentLoaded', () => {
 
