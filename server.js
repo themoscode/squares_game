@@ -61,13 +61,28 @@ io.on ( 'connect', socket => {
     socket.on( 'cliendSendsInit', data => {
         io.emit('serverSendsInit', data, socket.id );
     })
+
+    socket.on( 'clientSendsDeleteAllSockets', data => {
+       
+      // io.emit('serverSendsDeleteAllSockets', io.sockets.clients(), socket.id );
+    //  for (let socket of sockets){
+      //  io.sockets.connected[socket].disconnect();
+     // }
+      io.emit('serverSendsInit', data, socket.id );
+
+    })
     
+    
+
     socket.on('disconnect',() =>{
         
         sockets = sockets.filter ( el => el != socket.id );
         console.log("socket disconnects");
         console.log ( sockets );
-        io.emit('serverSendsSockets', sockets, socket.id );
+        if (sockets.length < 2) {
+            io.emit('serverSendsSockets', sockets, socket.id );
+        }
+        //io.emit('serverSendsSockets', sockets, socket.id );
     })
 
 })

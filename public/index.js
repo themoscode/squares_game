@@ -115,8 +115,7 @@
                     displayNone(playContainer);
                 }
                 else if (sockets.length > 2 && clientSocketID == serverSocketID) {  
-                    displayBlock(msgGameOccupied);
-                    displayNone(playContainer);
+                    window.location.href = 'busy.html';
                 }
                 else if (sockets.length == 2 ) {
                     displayNone(msgWaitForPlayer);
