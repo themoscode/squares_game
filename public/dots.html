@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <style>
+.btn_td {
+  background-color: white;
+  llborder-left:1px dotted;
+  llborder-top:1px dotted;
+  color: black;
+  padding:0px;
+  cursor: pointer;
+  width:100%;
+  height:100%
+}
+
+
+
+.cell {
+	width:30px;
+    height:30px;
+    border-left:2px dotted black;
+    border-top:2px dotted black;
+    display:inline-block;
+    cursor:pointer;
+    text-align:center
+}
+
+.upright, .downright {
+	border-right:2px dotted black;
+}
+
+.downleft, .downright {
+	border-bottom:2px dotted black;
+}
+
+.upleft:hover{
+	border-left:2px solid black
+}
+
+.upright:hover{
+	border-right:2px solid black
+}
+
+.downleft:hover{
+	border-top:2px solid black
+}
+
+.downright:hover{
+	border-bottom:2px solid black
+}
+
+
+
+table td{
+width:50px;
+height:50px;
+
+}
+
+
+</style>
+  
+</head>
+<body>
+
+<div class="container">
+  <h3>Popover Options</h3>
+  <p>The <strong>html</strong> option specifies whether to accept HTML tags in the popover.</p>
+  <table >
+  	<tr><td ><button class="btn_td">f</button></td><td ><button class="btn_td">f</button></td></tr>
+    <tr><td ><button class="btn_td">f</button></td><td ><button class="btn_td">f</button></td></tr>
+    <tr><td ><button class="btn_td">f</button></td><td ><button class="btn_td">f</button></td></tr>
+  </table>
+  <button class="btn">Click me</button>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+
+	let tdclicked = null;
+
+  $('.btn_td').popover({trigger: "focus", content: "<div><span class='cell upleft'>L</span><span class='cell upright'>R</span></div><div><span class='cell downleft'>U</span><span class='cell downright'>D</span></div>", html: true, placement: "right"}); 
+  
+  $(document).on("click", ".upleft", function() {
+    tdclicked.css("border-left","2px solid black")
+  });
+  $(document).on("click", ".upright", function() {
+    tdclicked.css("border-right","2px solid black")
+  });
+  $(document).on("click", ".downleft", function() {
+    tdclicked.css("border-top","2px solid black")
+  });
+  $(document).on("click", ".downright", function() {
+    tdclicked.css("border-bottom","2px solid black")
+  });
+  
+ 
+  
+  $(".btn_td").on("click",function(e){
+  	 tdclicked = $(this);
+     if (tdclicked.css('border-left-style')=="solid"){
+     	$(".upleft").css("display","none");
+     }
+     if (tdclicked.css('border-right-style')=="solid"){
+     	$(".upright").css("display","none");
+     }
+     if (tdclicked.css('border-right-style')=="solid"){
+     	$(".upright").css("display","none");
+     }
+      if (tdclicked.css('border-top-style')=="solid"){
+     	$(".downleft").css("display","none");
+     }
+      if (tdclicked.css('border-bottom-style')=="solid"){
+     	$(".downright").css("display","none");
+     }
+     
+      if (tdclicked.css('border-left-style')=="solid" && tdclicked.css('border-right-style')=="solid" && tdclicked.css('border-top-style')=="solid" && tdclicked.css('border-bottom-style')=="solid") {
+      
+      $(this).popover('destroy');
+      
+      }
+     
+    
+  })
+  
+});
+</script>
+  
+
+
+</body>
+</html>

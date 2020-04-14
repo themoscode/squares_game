@@ -5,20 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>S.O.S</title>
+    <title>DOTS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="/index.js"></script>
 </head>
 
 <body>
-    <audio id="sosSound">
+    <audio id="boxSound">
           <source src="sounds/success.wav" type="audio/wav">
           Your browser does not support the audio element.
     </audio>
-    
+    <br>
     <div id="gameArea">
-        <h2 class="title">S.O.S</h2>
+        <h2 class="title">DOTS</h2>
+        <br>
         <div id="msgContainer">
             <div id="msgGameOccupied">
                 The game is busy. Please try later <a href="https://sos-english.herokuapp.com/busy.html">(reload page)</a>
@@ -34,103 +38,85 @@
         <div id="playContainer">
             
             
-            <table id="sosTable">
+            <table id="dotsTable" cellspacing="2px">
                             
                 <tr>
-                    <td contenteditable id="c_0_0"></td>
-                    <td contenteditable id="c_0_1"></td>
-                    <td contenteditable id="c_0_2"></td>
-                    <td contenteditable id="c_0_3"></td>
-                    <td contenteditable id="c_0_4"></td>
-                    <td contenteditable id="c_0_5"></td>
-                    <td contenteditable id="c_0_6"></td>
-                    <td contenteditable id="c_0_7"></td>
-                    <td contenteditable id="c_0_8"></td>
-                    <td contenteditable id="c_0_9"></td>
-                    <td contenteditable id="c_0_10"></td>
-                    <td contenteditable id="c_0_11"></td>
-                    <td contenteditable id="c_0_12"></td>
+                    <td ><button id="c_0_0" class="btn_td"></button></td>
+                    <td ><button id="c_0_1" class="btn_td"></button></td>
+                    <td ><button id="c_0_2" class="btn_td"></button></td>
+                    <td ><button id="c_0_3" class="btn_td"></button></td>
+                    <td ><button id="c_0_4" class="btn_td"></button></td>
+                    <td ><button id="c_0_5" class="btn_td"></button></td>
+                    <td ><button id="c_0_6" class="btn_td"></button></td>
+                    <td ><button id="c_0_7"class="btn_td"></button></td>
+                    <td ><button id="c_0_8" class="btn_td"></button></td>
+                    <td ><button id="c_0_9" class="btn_td"></button></td>
+                    <td ><button id="c_0_10" class="btn_td"></button></td>
+                    <td ><button id="c_0_11" class="btn_td"></button></td>
+                    <td ><button id="c_0_12" class="btn_td"></button></td>
                 </tr>
                 
                 <tr>
-                    <td contenteditable id="c_1_0"></td>
-                    <td contenteditable id="c_1_1"></td>
-                    <td contenteditable id="c_1_2"></td>
-                    <td contenteditable id="c_1_3"></td>
-                    <td contenteditable id="c_1_4"></td>
-                    <td contenteditable id="c_1_5"></td>
-                    <td contenteditable id="c_1_6"></td>
-                    <td contenteditable id="c_1_7"></td>
-                    <td contenteditable id="c_1_8"></td>
-                    <td contenteditable id="c_1_9"></td>
-                    <td contenteditable id="c_1_10"></td>
-                    <td contenteditable id="c_1_11"></td>
-                    <td contenteditable id="c_1_12"></td>
+                    <td ><button id="c_1_0" class="btn_td"></button></td>
+                    <td ><button id="c_1_1" class="btn_td"></button></td>
+                    <td ><button id="c_1_2" class="btn_td"></button></td>
+                    <td ><button id="c_1_3" class="btn_td"></button></td>
+                    <td ><button id="c_1_4" class="btn_td"></button></td>
+                    <td ><button id="c_1_5" class="btn_td"></button></td>
+                    <td ><button id="c_1_6" class="btn_td"></button></td>
+                    <td ><button id="c_1_7" class="btn_td"></button></td>
+                    <td ><button id="c_1_8" class="btn_td"></button></td>
+                    <td ><button id="c_1_9" class="btn_td"></button></td>
+                    <td ><button id="c_1_10" class="btn_td"></button></td>
+                    <td ><button id="c_1_11" class="btn_td"></button></td>
+                    <td ><button id="c_1_12" class="btn_td"></button></td>
                 </tr>
                 <tr>
-                    <td contenteditable id="c_2_0"></td>
-                    <td contenteditable id="c_2_1"></td>
-                    <td contenteditable id="c_2_2"></td>
-                    <td contenteditable id="c_2_3"></td>
-                    <td contenteditable id="c_2_4"></td>
-                    <td contenteditable id="c_2_5"></td>
-                    <td contenteditable id="c_2_6"></td>
-                    <td contenteditable id="c_2_7"></td>
-                    <td contenteditable id="c_2_8"></td>
-                    <td contenteditable id="c_2_9"></td>
-                    <td contenteditable id="c_2_10"></td>
-                    <td contenteditable id="c_2_11"></td>
-                    <td contenteditable id="c_2_12"></td>
+                    <td ><button id="c_2_0" class="btn_td"></button></td>
+                    <td ><button id="c_2_1" class="btn_td"></button></td>
+                    <td ><button id="c_2_2" class="btn_td"></button></td>
+                    <td ><button id="c_2_3" class="btn_td"></button></td>
+                    <td ><button id="c_2_4" class="btn_td"></button></td>
+                    <td ><button id="c_2_5" class="btn_td"></button></td>
+                    <td ><button id="c_2_6" class="btn_td"></button></td>
+                    <td ><button id="c_2_7" class="btn_td"></button></td>
+                    <td ><button id="c_2_8" class="btn_td"></button></td>
+                    <td ><button id="c_2_9" class="btn_td"></button></td>
+                    <td ><button id="c_2_10" class="btn_td"></button></td>
+                    <td ><button id="c_2_11" class="btn_td"></button></td>
+                    <td ><button id="c_2_12" class="btn_td"></button></td>
                 </tr>
                 <tr>
-                    <td contenteditable id="c_3_0"></td>
-                    <td contenteditable id="c_3_1"></td>
-                    <td contenteditable id="c_3_2"></td>
-                    <td contenteditable id="c_3_3"></td>
-                    <td contenteditable id="c_3_4"></td>
-                    <td contenteditable id="c_3_5"></td>
-                    <td contenteditable id="c_3_6"></td>
-                    <td contenteditable id="c_3_7"></td>
-                    <td contenteditable id="c_3_8"></td>
-                    <td contenteditable id="c_3_9"></td>
-                    <td contenteditable id="c_3_10"></td>
-                    <td contenteditable id="c_3_11"></td>
-                    <td contenteditable id="c_3_12"></td>
+                    <td ><button id="c_3_0" class="btn_td"></button></td>
+                    <td ><button id="c_3_1" class="btn_td"></button></td>
+                    <td ><button id="c_3_2" class="btn_td"></button></td>
+                    <td ><button id="c_3_3" class="btn_td"></button></td>
+                    <td ><button id="c_3_4" class="btn_td"></button></td>
+                    <td ><button id="c_3_5" class="btn_td"></button></td>
+                    <td ><button id="c_3_6" class="btn_td"></button></td>
+                    <td ><button id="c_3_7" class="btn_td"></button></td>
+                    <td ><button id="c_3_8" class="btn_td"></button></td>
+                    <td ><button id="c_3_9" class="btn_td"></button></td>
+                    <td ><button id="c_3_10" class="btn_td"></button></td>
+                    <td ><button id="c_3_11" class="btn_td"></button></td>
+                    <td ><button id="c_3_12" class="btn_td"></button></td>
                 </tr>
                 <tr>
-                    <td contenteditable id="c_4_0"></td>
-                    <td contenteditable id="c_4_1"></td>
-                    <td contenteditable id="c_4_2"></td>
-                    <td contenteditable id="c_4_3"></td>
-                    <td contenteditable id="c_4_4"></td>
-                    <td contenteditable id="c_4_5"></td>
-                    <td contenteditable id="c_4_6"></td>
-                    <td contenteditable id="c_4_7"></td>
-                    <td contenteditable id="c_4_8"></td>
-                    <td contenteditable id="c_4_9"></td>
-                    <td contenteditable id="c_4_10"></td>
-                    <td contenteditable id="c_4_11"></td>
-                    <td contenteditable id="c_4_12"></td>
+                    <td ><button id="c_4_0" class="btn_td"></button></td>
+                    <td ><button id="c_4_1" class="btn_td"></button></td>
+                    <td ><button id="c_4_2" class="btn_td"></button></td>
+                    <td ><button id="c_4_3" class="btn_td"></button></td>
+                    <td ><button id="c_4_4" class="btn_td"></button></td>
+                    <td ><button id="c_4_5" class="btn_td"></button></td>
+                    <td ><button id="c_4_6" class="btn_td"></button></td>
+                    <td ><button id="c_4_7" class="btn_td"></button></td>
+                    <td ><button id="c_4_8" class="btn_td"></button></td>
+                    <td ><button id="c_4_9" class="btn_td"></button></td>
+                    <td ><button id="c_4_10" class="btn_td"></button></td>
+                    <td ><button id="c_4_11" class="btn_td"></button></td>
+                    <td ><button id="c_4_12" class="btn_td"></button></td>
                 </tr>
-                <tr>
-                    <td contenteditable id="c_5_0"></td>
-                    <td contenteditable id="c_5_1"></td>
-                    <td contenteditable id="c_5_2"></td>
-                    <td contenteditable id="c_5_3"></td>
-                    <td contenteditable id="c_5_4"></td>
-                    <td contenteditable id="c_5_5"></td>
-                    <td contenteditable id="c_5_6"></td>
-                    <td contenteditable id="c_5_7"></td>
-                    <td contenteditable id="c_5_8"></td>
-                    <td contenteditable id="c_5_9"></td>
-                    <td contenteditable id="c_5_10"></td>
-                    <td contenteditable id="c_5_11"></td>
-                    <td contenteditable id="c_5_12"></td>
-                </tr>
-            
-              
                 
-
             </table>
             
                    

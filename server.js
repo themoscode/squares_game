@@ -54,23 +54,16 @@ io.on ( 'connect', socket => {
         io.emit('serverSendsPlayer2', data, socket.id );
     })
 
-    socket.on( 'cliendSendsChar', data => {
-        io.emit('serverSendsChar', data, socket.id );
+    socket.on( 'cliendSendsMove', data => {
+        io.emit('serverSendsMove', data, socket.id );
     })
+   
 
     socket.on( 'cliendSendsInit', data => {
         io.emit('serverSendsInit', data, socket.id );
     })
 
-    socket.on( 'clientSendsDeleteAllSockets', data => {
-       
-      // io.emit('serverSendsDeleteAllSockets', io.sockets.clients(), socket.id );
-    //  for (let socket of sockets){
-      //  io.sockets.connected[socket].disconnect();
-     // }
-      io.emit('serverSendsInit', data, socket.id );
-
-    })
+  
     
     
 

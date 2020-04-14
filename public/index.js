@@ -1,7 +1,7 @@
         'use strict'
-        
        
-        document.addEventListener('DOMContentLoaded', () => {
+       
+        $(document).ready(function(){
 
             //variables
             console.clear(); 
@@ -9,8 +9,6 @@
             let eintraege = new Map();
             let socket = io.connect();
             let clientSocketID = null;
-            let cells = document.querySelectorAll("#sosTable td");
-            let gameTable = document.querySelector("#gameTable");
             let playContainer = document.querySelector("#playContainer");
             let msgGameOccupied = document.querySelector("#msgGameOccupied");
             let msgWaitForPlayer = document.querySelector("#msgWaitForPlayer");
@@ -23,8 +21,8 @@
             let btnRestart = document.querySelector("#btnRestart"); 
             let playerBlue = document.querySelector("#playerBlue"); 
             let playerRed = document.querySelector("#playerRed"); 
-            let sosSound = document.querySelector("#sosSound");
-
+            let boxSound = document.querySelector("#boxSound");
+            let matrix = null;
             let players = [];
             let player = {};
             //SOCKETS
@@ -124,13 +122,13 @@
 
                     players = [
                         {
-                            name:"Player1",
+                            name:"A",
                             id:sockets[0],
                             score:0,
                             onBGColor:"red"
                         },
                         {
-                            name:"Player2",
+                            name:"B",
                             id:sockets[1],
                             score:0,
                             onBGColor:"blue"
@@ -193,30 +191,24 @@
             
 
             let disablePlay = () => {
-                for (const elm of cells) {
-                    elm.removeAttribute("contenteditable");
-                    elm.style.cursor="default";
-                  }
+                
+                $('.btn_td').popover('destroy');
+                $('.btn_td').css('cursor','default');
                     
             }
-
+            
             let enablePlay = () => {
-                for (const elm of cells) {
-                    console.log("elm.innerHTML",elm.innerHTML);
-                    if (elm.innerHTML != "S" && elm.innerHTML != "O"){
-                        elm.setAttribute("contenteditable",true);
-                        elm.style.cursor="pointer";
-                    } else {
-                        elm.removeAttribute("contenteditable");
-                        elm.style.cursor="default";
-                    }
-
-                    
-                  }
-                    
+                $('.btn_td').popover({trigger: "focus", 
+                content: "<div><span class='cell upleft'>L</span><span class='cell upright'>R</span></div><div><span class='cell downleft'>U</span><span class='cell downright'>D</span></div>", 
+                html: true, 
+                placement: "right"
+                });
+                $('.btn_td').css('cursor','pointer');    
             }
 
             let matrixInfo = (elm) => {
+
+                elm = elm[0];
 
                 console.log("elm",elm);
                 let spl=elm.id.split("_");
@@ -226,21 +218,14 @@
                 let matrix = {
                     
                     upElm:false,
-                    upElm2:false,
+                   
                     downElm:false,
-                    downElm2:false,
+                   
                     leftElm:false,
-                    leftElm2:false,
+                   
                     rightElm:false,
-                    rightElm2:false,
-                    upLeftElm:false,
-                    upLeftElm2:false,
-                    upRightElm:false,
-                    upRightElm2:false,
-                    downLeftElm:false,
-                    downLeftElm2:false,
-                    downRightElm:false,
-                    downRightElm2:false,
+                   
+                   
                     
                 }
 
@@ -252,19 +237,10 @@
 
                 if (upElm.domObj) {
                     upElm.html=upElm.domObj.innerHTML;
-                    matrix.upElm = upElm.domObj;
+                    matrix.upElm = upElm.id;
                 }
                 //
-                let upElm2 = {}
-                upElm2.x = x;
-                upElm2.y = y-2;
-                upElm2.id = "#c_"+upElm2.y+"_"+upElm2.x;
-                upElm2.domObj = document.querySelector(upElm2.id);
-
-                if (upElm2.domObj) {
-                    upElm2.html=upElm2.domObj.innerHTML;
-                    matrix.upElm2 = upElm2.domObj;
-                }
+                
                 //
                 let downElm = {}
                 downElm.x = x;
@@ -276,19 +252,10 @@
 
                 if (downElm.domObj) {
                     downElm.html=downElm.domObj.innerHTML;
-                    matrix.downElm = downElm.domObj;
+                    matrix.downElm = downElm.id;
                 }
                 //
-                let downElm2 = {}
-                downElm2.x = x;
-                downElm2.y = y+2;
-                downElm2.id = "#c_"+downElm2.y+"_"+downElm2.x;
-                downElm2.domObj = document.querySelector(downElm2.id);
-
-                if (downElm2.domObj) {
-                    downElm2.html=downElm2.domObj.innerHTML;
-                    matrix.downElm2 = downElm2.domObj;
-                }
+                
                 //
                 let leftElm = {}
                 leftElm.x = x-1;
@@ -298,19 +265,10 @@
 
                 if (leftElm.domObj) {
                     leftElm.html=leftElm.domObj.innerHTML;
-                    matrix.leftElm = leftElm.domObj;
+                    matrix.leftElm = leftElm.id;
                 }
                 //
-                let leftElm2 = {}
-                leftElm2.x = x-2;
-                leftElm2.y = y;
-                leftElm2.id = "#c_"+leftElm2.y+"_"+leftElm2.x;
-                leftElm2.domObj = document.querySelector(leftElm2.id);
-
-                if (leftElm2.domObj) {
-                    leftElm2.html=leftElm2.domObj.innerHTML;
-                    matrix.leftElm2 = leftElm2.domObj;
-                }
+               
                 //
                 let rightElm = {}
                 rightElm.x = x+1;
@@ -320,270 +278,19 @@
 
                 if (rightElm.domObj) {
                     rightElm.html=rightElm.domObj.innerHTML;
-                    matrix.rightElm = rightElm.domObj;
+                    matrix.rightElm = rightElm.id;
                 }
-               //
-               let rightElm2 = {}
-               rightElm2.x = x+2;
-               rightElm2.y = y;
-               rightElm2.id = "#c_"+rightElm2.y+"_"+rightElm2.x;
-               rightElm2.domObj = document.querySelector(rightElm2.id);
-
-               if (rightElm2.domObj) {
-                   rightElm2.html=rightElm2.domObj.innerHTML;
-                   matrix.rightElm2 = rightElm2.domObj;
-               }
-               //
-               let upLeftElm = {}
-               upLeftElm.x = x-1;
-               upLeftElm.y = y-1;
-               upLeftElm.id = "#c_"+upLeftElm.y+"_"+upLeftElm.x;
-               upLeftElm.domObj = document.querySelector(upLeftElm.id);
-
-               if (upLeftElm.domObj) {
-                   upLeftElm.html=upLeftElm.domObj.innerHTML;
-                   matrix.upLeftElm = upLeftElm.domObj;
-               }
-               //
-               let upLeftElm2 = {}
-               upLeftElm2.x = x-2;
-               upLeftElm2.y = y-2;
-               upLeftElm2.id = "#c_"+upLeftElm2.y+"_"+upLeftElm2.x;
-               upLeftElm2.domObj = document.querySelector(upLeftElm2.id);
-
-               if (upLeftElm2.domObj) {
-                   upLeftElm2.html=upLeftElm2.domObj.innerHTML;
-                   matrix.upLeftElm2 = upLeftElm2.domObj;
-               }
-               //
-               //
-               let upRightElm = {}
-               upRightElm.x = x+1;
-               upRightElm.y = y-1;
-               upRightElm.id = "#c_"+upRightElm.y+"_"+upRightElm.x;
-               upRightElm.domObj = document.querySelector(upRightElm.id);
-
-               if (upRightElm.domObj) {
-                   upRightElm.html=upRightElm.domObj.innerHTML;
-                   matrix.upRightElm = upRightElm.domObj;
-               }
-               //
-               //
-               let upRightElm2 = {}
-               upRightElm2.x = x+2;
-               upRightElm2.y = y-2;
-               upRightElm2.id = "#c_"+upRightElm2.y+"_"+upRightElm2.x;
-               upRightElm2.domObj = document.querySelector(upRightElm2.id);
-
-               if (upRightElm2.domObj) {
-                   upRightElm2.html=upRightElm2.domObj.innerHTML;
-                   matrix.upRightElm2 = upRightElm2.domObj;
-               }
-               //
-               //
-               let downLeftElm = {}
-               downLeftElm.x = x-1;
-               downLeftElm.y = y+1;
-               downLeftElm.id = "#c_"+downLeftElm.y+"_"+downLeftElm.x;
-               downLeftElm.domObj = document.querySelector(downLeftElm.id);
-
-               if (downLeftElm.domObj) {
-                   downLeftElm.html=downLeftElm.domObj.innerHTML;
-                   matrix.downLeftElm = downLeftElm.domObj;
-               }
-               //downRightElm
-               let downLeftElm2 = {}
-               downLeftElm2.x = x-2;
-               downLeftElm2.y = y+2;
-               downLeftElm2.id = "#c_"+downLeftElm2.y+"_"+downLeftElm2.x;
-               downLeftElm2.domObj = document.querySelector(downLeftElm2.id);
-
-               if (downLeftElm2.domObj) {
-                   downLeftElm2.html=downLeftElm2.domObj.innerHTML;
-                   matrix.downLeftElm2 = downLeftElm2.domObj;
-               }
-               //downRightElm
-               let downRightElm = {}
-               downRightElm.x = x+1;
-               downRightElm.y = y+1;
-               downRightElm.id = "#c_"+downRightElm.y+"_"+downRightElm.x;
-               downRightElm.domObj = document.querySelector(downRightElm.id);
-
-               if (downRightElm.domObj) {
-                   downRightElm.html=downRightElm.domObj.innerHTML;
-                   matrix.downRightElm = downRightElm.domObj;
-               }
-               //downRightElm2
-               let downRightElm2 = {}
-               downRightElm2.x = x+2;
-               downRightElm2.y = y+2;
-               downRightElm2.id = "#c_"+downRightElm2.y+"_"+downRightElm2.x;
-               downRightElm2.domObj = document.querySelector(downRightElm2.id);
-
-               if (downRightElm2.domObj) {
-                   downRightElm2.html=downRightElm2.domObj.innerHTML;
-                   matrix.downRightElm2 = downRightElm2.domObj;
-               }
-
+               
+              
                 return matrix;
 
             }
             //event listeners
             
-            for (const elm of cells){
-                elm.addEventListener('input', function(event) {  
-                    socket.emit ( 'cliendSendsChar', {
-                        elmID: "#"+elm.id,
-                        char:elm.innerHTML,
-                        player:player
-                    })
-                })
-            }
-
-            socket.on ( 'serverSendsChar', (data, serverSocketID) => {    
-                
-                    console.log("serverSendsChar",data);
-                    let elm = document.querySelector(data.elmID);
-                    elm.innerHTML = data.char;
-                    let str = elm.innerHTML.toUpperCase();
-                    str = str.replace("<br>","");
-                    str = str.replace("<BR>","");
-                    elm.innerHTML=str;
-                    console.log(elm.innerHTML);
-                    if (elm.innerHTML!="S" && elm.innerHTML!="O" ) {
-                       elm.innerHTML="<br>"
-                    }
-                    else if (elm.innerHTML!="S" || elm.innerHTML!="O" ){
-                       elm.removeAttribute("contenteditable"); 
-                       elm.style.cursor="default";
+           
 
 
-                       let foundSOS = 0;
-                       let matrix = matrixInfo(elm);
-                      // console.log(matrix);
-
-                       if (elm.innerHTML=="O"){
-                           if (matrix.leftElm.innerHTML == "S" && matrix.rightElm.innerHTML=="S"){
-                               foundSOS++;
-                              
-                               blinkSOS(matrix.leftElm,elm,matrix.rightElm,data.player);
-                           }
-                           if (matrix.downElm.innerHTML == "S" && matrix.upElm.innerHTML=="S"){
-                               foundSOS++;
-                               
-                               blinkSOS(matrix.downElm,elm,matrix.upElm,data.player);
-                           }
-                           if (matrix.upLeftElm.innerHTML == "S" && matrix.downRightElm.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.upLeftElm,elm,matrix.downRightElm,data.player);
-                           }
-                           if (matrix.upRightElm.innerHTML == "S" && matrix.downLeftElm.innerHTML=="S"){
-                               foundSOS++;
-                               
-                               blinkSOS(matrix.upRightElm,elm,matrix.downLeftElm,data.player);
-                           }
-                           if (foundSOS == 0) {
-                               if (data.player.id == players[0].id) {
-                                cliendSendsPlayer2();
-                               }
-                               else {
-                                cliendSendsPlayer1();
-                               }
-                           }
-                       }
-                       
-                       else if (elm.innerHTML=="S"){
-                           if (matrix.leftElm.innerHTML == "O" && matrix.leftElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.leftElm,elm,matrix.leftElm2,data.player);
-                           }
-                           if (matrix.rightElm.innerHTML == "O" && matrix.rightElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.rightElm,elm,matrix.rightElm2,data.player);
-                           }
-                           if (matrix.upElm.innerHTML == "O" && matrix.upElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.upElm,elm,matrix.upElm2,data.player);
-                           }
-                           if (matrix.downElm.innerHTML == "O" && matrix.downElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.downElm,elm,matrix.downElm2,data.player);
-                           }
-                           if (matrix.upLeftElm.innerHTML == "O" && matrix.upLeftElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.upLeftElm,elm,matrix.upLeftElm2,data.player);
-                           }
-                           if (matrix.upRightElm.innerHTML == "O" && matrix.upRightElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.upRightElm,elm,matrix.upRightElm2,data.player);
-                           }
-                           if (matrix.downRightElm.innerHTML == "O" && matrix.downRightElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.downRightElm,elm,matrix.downRightElm2,data.player);
-                           }
-                           if (matrix.downLeftElm.innerHTML == "O" && matrix.downLeftElm2.innerHTML=="S"){
-                               foundSOS++;
-                               blinkSOS(matrix.downLeftElm,elm,matrix.downLeftElm2,data.player);
-
-                            } 
-                            if (foundSOS == 0) { 
-
-                                if (data.player.id == players[0].id) {
-                                cliendSendsPlayer2();
-                                }
-                                else {
-                                cliendSendsPlayer1();
-                                }
-                            }
-                       }
-                       
-                    }
-                    
-                   // console.log("checkGameFinished",checkGameFinished());
-                    if ( checkGameFinished() == true   ) {
-
-                        console.log (players);
-
-                        if (players[0].score > players[1].score) {
-                            msgResult.innerHTML="The red player won the game";
-                            msgResult.className="player1";
-                            displayBlock(msgResult);
-                            blink(msgResult,"red");
-                        }
-                        else if (players[0].score < players[1].score) {
-                            msgResult.innerHTML="The blue player won the game";
-                            msgResult.className="player2";
-                            displayBlock(msgResult);
-                            blink(msgResult,"blue");
-                        }
-                        else {
-                            msgResult.innerHTML="Nobody won the game";
-                            displayBlock(msgResult);
-                            blink(msgResult,"purple");
-                        }
-
-                        
-                        
-                        //displayNone(playContainer);
-                    }
-                
-              });
-
-
-            const checkGameFinished = () => {
-
-                let result=true;
-                for (const elm of cells){
-                    if (elm.innerHTML != "S" && elm.innerHTML != "O"){
-                        result=false;
-                    }
-                }
-
-                return result;
-            }
-
-
-            inputText.addEventListener('change', sendeNachricht );
+            
             btnRestart.addEventListener('click', init );
            
             //event listeners end
@@ -595,13 +302,6 @@
             const displayBlock = (el) =>{
                 el.style.display='block';
             }
-
-            let updateScroll = ()=>{
-                
-                ausgabe.scrollTop = ausgabe.scrollHeight;
-            }
-
-            //functions
 
             let blink = (elm,onBGColor="blue",onFontColor="white",offBGColor="white",offFontColor="black") => {
                 let on=()=>{
@@ -639,6 +339,15 @@
                 }, 1900);
             }
 
+            let updateScroll = ()=>{
+                
+                ausgabe.scrollTop = ausgabe.scrollHeight;
+            }
+
+            //functions
+
+           
+
             let twoDigits = (str) =>{
                 if (str.length == 1) {
                     str="0"+str;
@@ -646,69 +355,7 @@
                 return str;
             }
 
-            let blinkSOS = (elm1,elm2,elm3,thePlayer) => {
-                
-                console.log("thePlayer",thePlayer);
-                sosSound.play(); 
-
-                if (thePlayer.id == players[0].id){ //player1
-                    console.log("players[0].score",players[0].score);
-                    players[0].score++;
-                    player1Score.innerHTML=players[0].score;
-                    player1Score.innerHTML=twoDigits(player1Score.innerHTML);
-                }
-                else if (thePlayer.id == players[1].id){ //player 2
-                    console.log("players[1].score",players[1].score);
-                    players[1].score++;
-                    player2Score.innerHTML=players[1].score;
-                    player2Score.innerHTML=twoDigits(player2Score.innerHTML);
-                }
-
-                console.log("players",players);
-                
-
-                let on=()=>{
-                    elm1.style.background = thePlayer.onBGColor;
-                    elm2.style.background = thePlayer.onBGColor;
-                    elm3.style.background = thePlayer.onBGColor;
-                    elm1.style.color ="white";
-                    elm2.style.color ="white";
-                    elm3.style.color ="white";
-                }
-                let off=()=>{
-                    elm1.style.background="white";
-                    elm2.style.background="white";
-                    elm3.style.background="white";  
-                    elm1.style.color ="black";
-                    elm2.style.color ="black";
-                    elm3.style.color ="black";
-                }
-
-                setTimeout(function() {
-                  off();
-                }, 500);
-                setTimeout(function() {
-                    on();
-                }, 700);
-                setTimeout(function() {
-                    off();
-                }, 900);
-                setTimeout(function() {
-                    on();
-                }, 1100);
-                setTimeout(function() {
-                    off();
-                }, 1300);
-                setTimeout(function() {
-                    on();
-                }, 1500);
-                setTimeout(function() {
-                    off();
-                }, 1700);
-                setTimeout(function() {
-                    on();
-                }, 1900);
-            }
+           
 
             let DOMElementAnlegen = ({
                 inhalt=false,
@@ -722,6 +369,225 @@
                 eltern.appendChild ( neu );
                 return neu;
             }
+
+            ///
+            let tdclicked = null;
+              
+              let checkGameFinished = () => {
+
+                let result=true;
+
+                $( ".btn_td" ).each(function( index ) {
+                    if ($(this).html()=="") {
+                        
+                        result = false;    
+                        
+                    }
+                });
+
+                return result;
+              }
+
+              let checkReadyBlock = (thePlayer) =>{
+
+                let foundBlock=0;
+
+                $( ".btn_td" ).each(function( index ) {
+                    if ($(this).css('border-left-style')=="solid" && $(this).css('border-right-style')=="solid" && $(this).css('border-top-style')=="solid" && $(this).css('border-bottom-style')=="solid"  && $(this).html() == "" ) {
+
+                            foundBlock ++
+                            boxSound.play();
+                            $(this).popover('destroy');
+                            $(this).css('background-color',thePlayer.onBGColor);
+                            $(this).css('cursor','default');
+                            $(this).html(thePlayer.name);
+                            if (thePlayer.id == players[0].id){ //player1
+                                console.log("players[0].score",players[0].score);
+                                players[0].score++;
+                                player1Score.innerHTML=players[0].score;
+                                player1Score.innerHTML=twoDigits(player1Score.innerHTML);
+                            }
+                            else if (thePlayer.id == players[1].id){ //player 2
+                                console.log("players[1].score",players[1].score);
+                                players[1].score++;
+                                player2Score.innerHTML=players[1].score;
+                                player2Score.innerHTML=twoDigits(player2Score.innerHTML);
+                            }
+                        
+                        }
+                });
+
+                if (foundBlock == 0) { 
+                    console.log("foundBlock",foundBlock);
+                    if (thePlayer.id == players[0].id) {
+                    cliendSendsPlayer2();
+                    }
+                    else {
+                    cliendSendsPlayer1();
+                    }
+                }
+
+              } 
+
+              $('.btn_td').popover({trigger: "focus", 
+              content: "<div><span class='cell upleft'>L</span><span class='cell upright'>R</span></div><div><span class='cell downleft'>U</span><span class='cell downright'>D</span></div>", 
+              html: true, 
+              placement: "right"
+              }); 
+              
+              socket.on ( 'serverSendsMove', (result, serverSocketID) => {
+                
+                //data.tdclickedID=$("#"+data.tdclickedID);
+
+               // let elm = data.tdclickedID;
+
+                let _cell = result.data.cell;
+                let _tdclicked = $("#"+result.data.tdclickedID);
+                let _matrix = result.data.matrix;
+                let _player = result.data.player;
+
+                console.log("player",_player);
+
+               // console.log("data",data.data);
+               // console.log("data.cell",data.data.cell);
+
+                if (_cell == '.upleft'){
+                    _tdclicked.css("border-left","2px solid black");
+                    $(_matrix.leftElm).css('border-right','2px solid black');
+                    checkReadyBlock(_player);
+                }
+                else if (_cell == '.upright'){
+                     _tdclicked.css('border-right','2px solid black');
+                     $(_matrix.rightElm).css('border-left','2px solid black');
+                     checkReadyBlock(_player);
+                }
+                else if (_cell == '.downleft'){
+                    _tdclicked.css("border-top","2px solid black");
+                    $(_matrix.upElm).css('border-bottom','2px solid black');
+                    checkReadyBlock(_player);
+               }
+               else if (_cell == '.downright'){
+                    _tdclicked.css("border-bottom","2px solid black");
+                    $(_matrix.downElm).css('border-top','2px solid black');
+                    checkReadyBlock(_player);
+                }
+                
+                let gameFinished = checkGameFinished();
+
+                console.log("gameFinished",gameFinished);
+
+                if ( gameFinished == true   ) {
+                    
+                    console.log (players);
+
+                    if (players[0].score > players[1].score) {
+                        msgResult.innerHTML="The red player won the game";
+                        msgResult.className="player1";
+                        displayBlock(msgResult);
+                        blink(msgResult,"red");
+                    }
+                    else if (players[0].score < players[1].score) {
+                        msgResult.innerHTML="The blue player won the game";
+                        msgResult.className="player2";
+                        displayBlock(msgResult);
+                        blink(msgResult,"blue");
+                    }
+                    else {
+                        msgResult.innerHTML="Nobody won the game";
+                        displayBlock(msgResult);
+                        blink(msgResult,"purple");
+                    }
+
+                    //displayNone(playContainer);
+                }
+                
+              })
+
+
+              $(document).on("click", ".upleft", function() {
+                
+                console.log("player==",player);
+
+                socket.emit ( 'cliendSendsMove', {
+                    data: {
+                        tdclickedID:tdclicked[0].id,
+                        matrix:matrix,
+                        cell:'.upleft',
+                        player:player 
+                    },
+                })
+                
+              });
+              $(document).on("click", ".upright", function() {
+                
+                socket.emit ( 'cliendSendsMove', {
+                    data: {
+                        tdclickedID:tdclicked[0].id,
+                        matrix:matrix,
+                        cell:'.upright',
+                        player:player  
+                    },
+                })
+                
+              });
+              $(document).on("click", ".downright", function() {
+                
+                socket.emit ( 'cliendSendsMove', {
+                    data: {
+                        tdclickedID:tdclicked[0].id,
+                        matrix:matrix,
+                        cell:'.downright',
+                        player:player  
+                    },
+                })
+                
+              });
+              $(document).on("click", ".downleft", function() {
+                
+                socket.emit ( 'cliendSendsMove', {
+                    data: {
+                        tdclickedID:tdclicked[0].id,
+                        matrix:matrix,
+                        cell:'.downleft',
+                        player:player  
+                    },
+                })
+                
+              });
+             
+              
+              $(".btn_td").on("click",function(e){
+                  
+                  tdclicked = $(this);
+                  
+                  console.log("$(this)",tdclicked[0].id);
+
+                   matrix = matrixInfo(tdclicked);
+
+                 if (tdclicked.css('border-left-style')=="solid" ){
+                     $(".upleft").css("display","none");
+                     
+                 }
+                
+                 if (tdclicked.css('border-right-style')=="solid" ){
+                     $(".upright").css("display","none");
+                    
+                 }
+                
+                  if (tdclicked.css('border-top-style')=="solid" ){
+                     $(".downleft").css("display","none");
+                     
+                 }
+                  if (tdclicked.css('border-bottom-style')=="solid" ){
+                     $(".downright").css("display","none");
+                     
+                 }
+                 
+                
+              })
+              inputText.addEventListener('change', sendeNachricht );
+              
+            ///
    
 });
 
