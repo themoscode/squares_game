@@ -429,6 +429,8 @@
 
               } 
 
+              
+
               $('.btn_td').popover({trigger: "focus", 
               content: "<div><span class='cell upleft'>L</span><span class='cell upright'>R</span></div><div><span class='cell downleft'>U</span><span class='cell downright'>D</span></div>", 
               html: true, 
