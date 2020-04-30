@@ -1,3 +1,3 @@
 # squares_game
 
-NodeJS Game
+NodeJS 2players Game
